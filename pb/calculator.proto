@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = 'github.com/ahussein/gocalculator/pb';
+
+// message for calculator parameters, only support two parameters  both of them need to be integers
+message Parameters{
+    int32 param1 = 1;
+    int32 param2 = 2;
+}
+
+// message for calculator response, will be float
+message Result{
+    float result=1;
+}
+
+
+// define the calculator service
+service Calculator{
+    rpc Add (Parameters) returns (Result);
+    rpc Subtract (Parameters) returns (Result);
+    rpc Multiply (Parameters) returns (Result);
+    rpc Divide (Parameters) returns  (Result);
+}
