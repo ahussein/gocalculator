@@ -53,6 +53,6 @@ func (c *CalculatorService) Divide(ctx context.Context, params *pb.Parameters) (
 		return nil, errors.New("Division by zero is not allowed")
 	}
 	var result int32
-	result = params.Param1 + params.Param2
+	result = params.Param1 / params.Param2
 	return &pb.Result{Result: float32(result)}, nil
 }
