@@ -13,11 +13,12 @@ import (
 
 const port = ":9000"
 
+// main works as the main entry point of the client cli
 func main() {
 	param1 := flag.Int("Param1", 0, "First parameter")
 	param2 := flag.Int("Param2", 0, "Second parameter")
 	address := flag.String("Address", "localhost:9000", "Address to the calculator server")
-	operation := flag.String("Operation", "add", "Operation to execute, one of (add, subtract, multiply, divide)")
+	operation := flag.String("Operation", "", "Operation to execute, one of (add, subtract, multiply, divide)")
 	flag.Parse()
 
 	opts := []grpc.DialOption{grpc.WithInsecure()}

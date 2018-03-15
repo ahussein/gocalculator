@@ -3,17 +3,18 @@
 package main
 
 import (
-	"errors"
 	"log"
 	"net"
 
 	"github.com/ahussein/gocalculator/pb"
+	"github.com/ahussein/gocalculator/calculator"
 	context "golang.org/x/net/context"
 	grpc "google.golang.org/grpc"
 )
 
 const port = ":9000"
 
+// main works as the entry point for starting the calculator service
 func main() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
@@ -28,31 +29,30 @@ func main() {
 
 }
 
+
+// CalculateorService implements the Calculator interface
 type CalculatorService struct{}
 
+// Add adds tow integers and return a float result
 func (c *CalculatorService) Add(ctx context.Context, params *pb.Parameters) (*pb.Result, error) {
-	var result int32
-	result = params.Param1 + params.Param2
-	return &pb.Result{Result: float32(result)}, nil
+	result := calculator.Add(params.Param1, params.Param2)
+	return &pb.Result{Result: result}, nil
 }
 
+// Subtract substracts two integers and return a float result
 func (c *CalculatorService) Subtract(ctx context.Context, params *pb.Parameters) (*pb.Result, error) {
-	var result int32
-	result = params.Param1 - params.Param2
-	return &pb.Result{Result: float32(result)}, nil
+	result := calculator.Subtract(params.Param1, params.Param2)
+	return &pb.Result{Result: result}, nil
 }
 
+// Multiply multiplies two integers and return a float result
 func (c *CalculatorService) Multiply(ctx context.Context, params *pb.Parameters) (*pb.Result, error) {
-	var result int32
-	result = params.Param1 * params.Param2
-	return &pb.Result{Result: float32(result)}, nil
+	result := calculator.Multiply(params.Param1, params.Param2)
+	return &pb.Result{Result: result}, nil
 }
 
+// Divide divides two integers and return a float result
 func (c *CalculatorService) Divide(ctx context.Context, params *pb.Parameters) (*pb.Result, error) {
-	if params.Param2 == 0 {
-		return nil, errors.New("Division by zero is not allowed")
-	}
-	var result int32
-	result = params.Param1 / params.Param2
-	return &pb.Result{Result: float32(result)}, nil
+	result, err := calculator.Divide(params.Param1, params.Param2)
+	return &pb.Result{Result: result}, err
 }
